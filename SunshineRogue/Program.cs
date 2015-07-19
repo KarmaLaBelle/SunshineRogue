@@ -20,13 +20,12 @@ namespace SunshineRogue
 
         static void Main(string[] args)
         {
-            //Generate random rooms map
-            _map = Map.Create(new RandomRoomsMapCreationStrategy<Map>(_screenWidth, _screenHeight, 45, 10, 6));
             // The title will appear at the top of the console window
             string consoleTitle = "Dungeons and @ Signs";
             // Create the console
             _rootConsole = new ConsoleWindow(_screenHeight, _screenWidth, consoleTitle);
 
+            GenerateMap();
             StartPlayer();
             GameLoop();
         }
@@ -99,7 +98,7 @@ namespace SunshineRogue
             }
 
                 // Use RogueSharp to calculate the current field-of-view for the player
-                _map.ComputeFov(_playerX, _playerY, 10, true);
+                _map.ComputeFov(_playerX, _playerY, 15, true);
  
           foreach ( var cell in _map.GetAllCells() )
           {
@@ -132,6 +131,12 @@ namespace SunshineRogue
  
           // Set the player's symbol after the map symbol to make sure it is draw
           _rootConsole.Write( _playerY, _playerX, '@', Color4.LightSkyBlue );
+        }
+
+        private static void GenerateMap()
+        {
+            //Generate random rooms map
+            _map = Map.Create(new RandomRoomsMapCreationStrategy<Map>(_screenWidth - 20, _screenHeight, 45, 10, 6));
         }
 
         private static Cell GetRandomEmptyCell()

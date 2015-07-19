@@ -10,8 +10,8 @@ namespace SunshineRogue
     {
 
         // The screen height and width are in number of tiles
-        private static readonly int _screenWidth = 150;
-        private static readonly int _screenHeight = 40;
+        private static readonly int _screenWidth = 200;
+        private static readonly int _screenHeight = 50;
         // The starting position for the player
         private static int _playerX;
         private static int _playerY;
@@ -89,54 +89,50 @@ namespace SunshineRogue
 
         private static void RootConsoleRender()
         {
-            for (int row = 0; row <= _screenHeight; row++)
-            {
-                for (int col = 0; col <= _screenWidth; col++)
-                {
-                    _rootConsole.Write(row, col, " ", Color4.Black);
-                }
-            }
+            
 
-                // Use RogueSharp to calculate the current field-of-view for the player
-                _map.ComputeFov(_playerX, _playerY, 15, true);
+            // Use RogueSharp to calculate the current field-of-view for the player
+            _map.ComputeFov(_playerX, _playerY, 15, true);
  
-          foreach ( var cell in _map.GetAllCells() )
-          {
+            foreach ( var cell in _map.GetAllCells() )
+            {
             // When a Cell is in the field-of-view set it to a brighter color
             if ( cell.IsInFov )
             {
-              _map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true );
-              if ( cell.IsWalkable )
-              {
+                _map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true );
+                if ( cell.IsWalkable )
+                {
                 _rootConsole.Write( cell.Y, cell.X, '.', Color4.Yellow );
-              }
-              else
-              {
+                }
+                else
+                {
                 _rootConsole.Write( cell.Y, cell.X, '#', Color4.White );
-              }
+                }
             }
             // If the Cell is not in the field-of-view but has been explored set it darker
             else if ( cell.IsExplored )
             {
-              if ( cell.IsWalkable )
-              {
-                  _rootConsole.Write(cell.Y, cell.X, '.', Color4.Gray);
-              }
-              else
-              {
-                  _rootConsole.Write(cell.Y, cell.X, '#', Color4.DarkGray);
-              }
+                if ( cell.IsWalkable )
+                {
+                    _rootConsole.Write(cell.Y, cell.X, '.', Color4.Gray);
+                }
+                else
+                {
+                    _rootConsole.Write(cell.Y, cell.X, '#', Color4.DarkGray);
+                }
             }
-          }
+            }
+
+            DrawUI();
  
-          // Set the player's symbol after the map symbol to make sure it is draw
-          _rootConsole.Write( _playerY, _playerX, '@', Color4.LightSkyBlue );
+            // Set the player's symbol after the map symbol to make sure it is draw
+            _rootConsole.Write( _playerY, _playerX, '@', Color4.LightSkyBlue );
         }
 
         private static void GenerateMap()
         {
             //Generate random rooms map
-            _map = Map.Create(new RandomRoomsMapCreationStrategy<Map>(_screenWidth - 20, _screenHeight, 45, 10, 6));
+            _map = Map.Create(new RandomRoomsMapCreationStrategy<Map>(_screenWidth - 40, _screenHeight, 45, 10, 6));
         }
 
         private static Cell GetRandomEmptyCell()
@@ -159,6 +155,28 @@ namespace SunshineRogue
             Cell startingCell = GetRandomEmptyCell();
             _playerX = startingCell.X;
             _playerY = startingCell.Y;
+        }
+
+        private static void Clear()
+        {
+            for (int row = 0; row <= _screenHeight; row++)
+            {
+                for (int col = 0; col <= _screenWidth; col++)
+                {
+                    _rootConsole.Write(row, col, " ", Color4.Black);
+                }
+            }
+        }
+
+        private static void DrawUI()
+        {
+            for (int row = 0; row <= _screenHeight; row++)
+            {
+                for (int col = _screenWidth - 40; col <= _screenWidth; col++)
+                {
+                    _rootConsole.Write(row, col, " ", Color4.Black, new Color4(0, 40, 40, 255));
+                }
+            }
         }
     }
 }

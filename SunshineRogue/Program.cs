@@ -10,8 +10,8 @@ namespace SunshineRogue
     {
 
         // The screen height and width are in number of tiles
-        private static readonly int _screenWidth = 200;
-        private static readonly int _screenHeight = 50;
+        private static readonly int _screenWidth = 125;
+        private static readonly int _screenHeight = 60;
         // The starting position for the player
         private static int _playerX;
         private static int _playerY;
@@ -84,6 +84,11 @@ namespace SunshineRogue
                         _playerX++;
                     }
                 }
+
+                if (key == Key.Escape)
+                {
+                    _rootConsole.Close();
+                }
             }
         }
 
@@ -96,34 +101,34 @@ namespace SunshineRogue
  
             foreach ( var cell in _map.GetAllCells() )
             {
-            // When a Cell is in the field-of-view set it to a brighter color
-            if ( cell.IsInFov )
-            {
-                _map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true );
-                if ( cell.IsWalkable )
+                // When a Cell is in the field-of-view set it to a brighter color
+                if ( cell.IsInFov )
                 {
-                _rootConsole.Write( cell.Y, cell.X, '.', Color4.Yellow );
+                    _map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true );
+                    if ( cell.IsWalkable )
+                    {
+                    _rootConsole.Write( cell.Y, cell.X, '.', Color4.Yellow );
+                    }
+                    else
+                    {
+                    _rootConsole.Write( cell.Y, cell.X, '#', Color4.White );
+                    }
                 }
-                else
+                // If the Cell is not in the field-of-view but has been explored set it darker
+                else if ( cell.IsExplored )
                 {
-                _rootConsole.Write( cell.Y, cell.X, '#', Color4.White );
+                    if ( cell.IsWalkable )
+                    {
+                        _rootConsole.Write(cell.Y, cell.X, '.', Color4.Gray);
+                    }
+                    else
+                    {
+                        _rootConsole.Write(cell.Y, cell.X, '#', Color4.DarkGray);
+                    }
                 }
-            }
-            // If the Cell is not in the field-of-view but has been explored set it darker
-            else if ( cell.IsExplored )
-            {
-                if ( cell.IsWalkable )
-                {
-                    _rootConsole.Write(cell.Y, cell.X, '.', Color4.Gray);
-                }
-                else
-                {
-                    _rootConsole.Write(cell.Y, cell.X, '#', Color4.DarkGray);
-                }
-            }
             }
 
-            DrawUI();
+            //DrawUI();
  
             // Set the player's symbol after the map symbol to make sure it is draw
             _rootConsole.Write( _playerY, _playerX, '@', Color4.LightSkyBlue );
@@ -132,7 +137,7 @@ namespace SunshineRogue
         private static void GenerateMap()
         {
             //Generate random rooms map
-            _map = Map.Create(new RandomRoomsMapCreationStrategy<Map>(_screenWidth - 40, _screenHeight, 45, 10, 6));
+            _map = Map.Create(new CaveMapCreationStrategy<Map>(_screenWidth, _screenHeight, 45, 10, 6));
         }
 
         private static Cell GetRandomEmptyCell()

@@ -45,7 +45,7 @@ namespace SunshineRogue
             {
                 Key key = _rootConsole.GetKey();
                 
-                if (key == Key.Up)
+                if (key == Key.Up || key == Key.Keypad8)
                 {
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (_map.GetCell(_playerX, _playerY - 1).IsWalkable)
@@ -55,7 +55,7 @@ namespace SunshineRogue
                     }
                 }
 
-                if (key == Key.Down)
+                if (key == Key.Down || key == Key.Keypad2)
                 {
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (_map.GetCell(_playerX, _playerY + 1).IsWalkable)
@@ -65,7 +65,7 @@ namespace SunshineRogue
                     }
                 }
 
-                if (key == Key.Left)
+                if (key == Key.Left || key == Key.Keypad4)
                 {
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (_map.GetCell(_playerX - 1, _playerY).IsWalkable)
@@ -75,7 +75,7 @@ namespace SunshineRogue
                     }
                 }
 
-                if (key == Key.Right)
+                if (key == Key.Right || key == Key.Keypad6)
                 {
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (_map.GetCell(_playerX + 1, _playerY).IsWalkable)
@@ -137,7 +137,7 @@ namespace SunshineRogue
         private static void GenerateMap()
         {
             //Generate random rooms map
-            _map = Map.Create(new CaveMapCreationStrategy<Map>(_screenWidth, _screenHeight, 45, 10, 6));
+            _map = Map.Create(new RandomRoomsMapCreationStrategy<Map>(_screenWidth, _screenHeight, 45, 10, 6));
         }
 
         private static Cell GetRandomEmptyCell()

@@ -8,7 +8,7 @@ using System;
 
 namespace SunshineRogue
 {
-    class Player
+    public class Player
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -29,6 +29,7 @@ namespace SunshineRogue
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (Program.map.GetCell(X, Y - 1).IsWalkable)
                     {
+                        Global.GameState = GameStates.EnemyTurn;
                         // Update the player position
                         Y--;
                     }
@@ -39,6 +40,7 @@ namespace SunshineRogue
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (Program.map.GetCell(X, Y + 1).IsWalkable)
                     {
+                        Global.GameState = GameStates.EnemyTurn;
                         // Update the player position
                         Y++;
                     }
@@ -49,6 +51,7 @@ namespace SunshineRogue
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (Program.map.GetCell(X - 1, Y).IsWalkable)
                     {
+                        Global.GameState = GameStates.EnemyTurn;
                         // Update the player position
                         X--;
                     }
@@ -59,6 +62,7 @@ namespace SunshineRogue
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (Program.map.GetCell(X + 1, Y).IsWalkable)
                     {
+                        Global.GameState = GameStates.EnemyTurn;
                         // Update the player position
                         X++;
                     }
@@ -69,6 +73,7 @@ namespace SunshineRogue
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (Program.map.GetCell(X - 1, Y - 1).IsWalkable)
                     {
+                        Global.GameState = GameStates.EnemyTurn;
                         // Update the player position
                         X--;
                         Y--;
@@ -80,6 +85,7 @@ namespace SunshineRogue
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (Program.map.GetCell(X + 1, Y - 1).IsWalkable)
                     {
+                        Global.GameState = GameStates.EnemyTurn;
                         // Update the player position
                         X++;
                         Y--;
@@ -91,6 +97,7 @@ namespace SunshineRogue
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (Program.map.GetCell(X - 1, Y + 1).IsWalkable)
                     {
+                        Global.GameState = GameStates.EnemyTurn;
                         // Update the player position
                         X--;
                         Y++;
@@ -102,6 +109,7 @@ namespace SunshineRogue
                     // Check the RogueSharp map to make sure the Cell is walkable before moving
                     if (Program.map.GetCell(X + 1, Y + 1).IsWalkable)
                     {
+                        Global.GameState = GameStates.EnemyTurn;
                         // Update the player position
                         X++;
                         Y++;

@@ -60,6 +60,7 @@
     <Compile Include="AggressiveEnemy.cs" />
     <Compile Include="Creature.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="PathToPlayer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -40,6 +40,11 @@ namespace SunshineRogue
         {
             while (!rootConsole.KeyPressed && rootConsole.WindowUpdate())
             {
+                if (Global.GameState == GameStates.EnemyTurn)
+                {
+                    _aggressiveEnemy.Update();
+                    Global.GameState = GameStates.PlayerTurn;
+                }
                 _player.GetInput();
                 RootConsoleRender();
             }
@@ -125,7 +130,9 @@ namespace SunshineRogue
         private static void StartEnemy()
         {
             Cell startingCell = GetRandomEmptyCell();
-            _aggressiveEnemy = new AggressiveEnemy()
+            var pathFromAggressiveEnemy = new PathToPlayer(_player, map);
+            pathFromAggressiveEnemy.CreateFrom(startingCell.X, startingCell.Y);
+            _aggressiveEnemy = new AggressiveEnemy(pathFromAggressiveEnemy)
             {
                 X = startingCell.X,
                 Y = startingCell.Y

@@ -5,6 +5,8 @@ using RogueSharp;
 using RogueSharp.Random;
 using System;
 
+//Test Comment!!!!!
+
 namespace SunshineRogue
 {
     class Program
@@ -52,11 +54,11 @@ namespace SunshineRogue
 
         private static void RootConsoleRender()
         {
-            
+
 
             // Use RogueSharp to calculate the current field-of-view for the player
             map.ComputeFov(_player.X, _player.Y, 15, true);
- 
+
             foreach ( var cell in map.GetAllCells() )
             {
                 // When a Cell is in the field-of-view set it to a brighter color
@@ -108,8 +110,8 @@ namespace SunshineRogue
         {
             while (true)
             {
-                int x = Global.Random.Next(49);
-                int y = Global.Random.Next(29);
+                int x = Global.Random.Next(124);
+                int y = Global.Random.Next(59);
                 if (map.IsWalkable(x, y))
                 {
                     return map.GetCell(x, y);
@@ -132,7 +134,7 @@ namespace SunshineRogue
             Cell startingCell = GetRandomEmptyCell();
             var pathFromAggressiveEnemy = new PathToPlayer(_player, map);
             pathFromAggressiveEnemy.CreateFrom(startingCell.X, startingCell.Y);
-            _aggressiveEnemy = new AggressiveEnemy(pathFromAggressiveEnemy)
+            _aggressiveEnemy = new AggressiveEnemy(map, pathFromAggressiveEnemy)
             {
                 X = startingCell.X,
                 Y = startingCell.Y

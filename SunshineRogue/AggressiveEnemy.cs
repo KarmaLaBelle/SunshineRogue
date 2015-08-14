@@ -10,10 +10,13 @@ namespace SunshineRogue
     public class AggressiveEnemy
     {
         private readonly PathToPlayer _path;
+        private readonly IMap _map;
+        private bool _isAwareOfPlayer;
         public int X { get; set; }
         public int Y { get; set; }
-        public AggressiveEnemy( PathToPlayer path )
+        public AggressiveEnemy( IMap map, PathToPlayer path )
         {
+            _map = map;
             _path = path;
         }
     
@@ -25,9 +28,24 @@ namespace SunshineRogue
 
         public void Update()
         {
-            _path.CreateFrom(X, Y);
-            X = _path.FirstCell.X;
-            Y = _path.FirstCell.Y;
+            if (!_isAwareOfPlayer)
+            {
+                // When the enemy is not aware of the player
+                // check the map to see if they are in field-of-view
+                if (_map.IsInFov(X, Y))
+                {
+                    _isAwareOfPlayer = true;
+                }
+            }
+            // Once the enemy is aware of the player
+            // they will never lose track of the player
+            // and will pursue relentlessly
+            if (_isAwareOfPlayer)
+            {
+                _path.CreateFrom(X, Y);
+                X = _path.FirstCell.X;
+                Y = _path.FirstCell.Y;
+            }
         }
     }
 }
